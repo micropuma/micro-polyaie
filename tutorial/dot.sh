@@ -36,6 +36,11 @@ PIPELINE_OPTS+="gen-extern-kernel=${GEN_EXTERN_KERNEL}"
 
 ${POLYAIE_OPT} ${DIR}/gemm.mlir \
   -polyaie-pipeline="${PIPELINE_OPTS}" \
-  -debug \
   -o ${TMP_DIR}/gemm.polyaie.mlir \
-  2>&1 | tee ${TMP_DIR}/gemm.polyaie.log
+  1> ${TMP_DIR}/gemm.polyaie.mlir \
+  2> ${TMP_DIR}/gemm.polyaie.dot
+
+dot -Tpng ${TMP_DIR}/gemm.polyaie.dot \
+  > ${TMP_DIR}/gemm.polyaie.df.png
+dot -Tpng -Kfdp ${TMP_DIR}/gemm.polyaie.dot \
+  > ${TMP_DIR}/gemm.polyaie.layout.png

@@ -6,3 +6,5 @@ tmp
 
 /llvm
 /mlir-aie
+
+*.cache
