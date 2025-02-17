@@ -13,13 +13,15 @@ add_mlir_library(MLIRPolyAIEPasses
   Placement.cpp
   CreateInterface.cpp
   PrintDataflow.cpp
-  DataflowToAIE.cpp
-  LinkExternKernel.cpp
-  MaterializeBroadcast.cpp
-  FlowPacketToCircuit.cpp
-  DoubleBuffer.cpp
-  Postprocess.cpp
-  CodeGenCleanup.cpp
+
+  # 先注释AIE部分，后续再添加
+  # DataflowToAIE.cpp
+  # LinkExternKernel.cpp
+  # MaterializeBroadcast.cpp
+  # FlowPacketToCircuit.cpp
+  # DoubleBuffer.cpp
+  # Postprocess.cpp
+  # CodeGenCleanup.cpp
   Passes.cpp
 
   DEPENDS

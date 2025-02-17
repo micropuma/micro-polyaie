@@ -7,7 +7,8 @@
 #ifndef POLYAIE_INITALLPASSES_H
 #define POLYAIE_INITALLPASSES_H
 
-#include "aie/Dialect/AIEVec/Transforms/Passes.h"
+// 先注释AIE部分，后续再添加
+// #include "aie/Dialect/AIEVec/Transforms/Passes.h"
 #include "mlir/InitAllPasses.h"
 #include "polyaie/Transforms/Passes.h"
 
@@ -23,8 +24,9 @@ inline void registerAllPasses() {
   polyaie::registerPolyAIEPasses();
 
   // AIE passes.
-  xilinx::AIE::registerAIEPasses();
-  xilinx::aievec::registerAIEVecPasses();
+  // 先注释AIE部分，后续再添加
+  // xilinx::AIE::registerAIEPasses();
+  // xilinx::aievec::registerAIEVecPasses();
 }
 
 } // namespace polyaie

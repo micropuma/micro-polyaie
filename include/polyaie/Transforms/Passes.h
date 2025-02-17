@@ -92,14 +92,15 @@ std::unique_ptr<Pass> createPlacementPass(const PolyAIEOptions &opts);
 std::unique_ptr<Pass> createCreateInterfacePass();
 std::unique_ptr<Pass> createPrintDataflowPass();
 
-std::unique_ptr<Pass> createDataflowToAIEPass();
-std::unique_ptr<Pass> createLinkExternKernelPass();
-std::unique_ptr<Pass> createLinkExternKernelPass(const PolyAIEOptions &opts);
-std::unique_ptr<Pass> createMaterializeBroadcastPass();
-std::unique_ptr<Pass> createFlowPacketToCircuitPass();
-std::unique_ptr<Pass> createDoubleBufferPass();
-std::unique_ptr<Pass> createPostprocessPass();
-std::unique_ptr<Pass> createCodeGenCleanupPass();
+// 先注释AIE部分，后续再添加
+// std::unique_ptr<Pass> createDataflowToAIEPass();
+// std::unique_ptr<Pass> createLinkExternKernelPass();
+// std::unique_ptr<Pass> createLinkExternKernelPass(const PolyAIEOptions &opts);
+// std::unique_ptr<Pass> createMaterializeBroadcastPass();
+// std::unique_ptr<Pass> createFlowPacketToCircuitPass();
+// std::unique_ptr<Pass> createDoubleBufferPass();
+// std::unique_ptr<Pass> createPostprocessPass();
+// std::unique_ptr<Pass> createCodeGenCleanupPass();
 
 void registerPolyAIEPassPipeline();
 void registerPolyAIEPasses();

@@ -7,8 +7,9 @@
 #ifndef POLYAIE_INITALLDIALECTS_H
 #define POLYAIE_INITALLDIALECTS_H
 
-#include "aie/AIEDialect.h"
-#include "aie/Dialect/AIEVec/IR/AIEVecOps.h"
+// 先注释aie部分，后续再添加
+// #include "aie/AIEDialect.h"
+// #include "aie/Dialect/AIEVec/IR/AIEVecOps.h"
 #include "mlir/Dialect/Affine/IR/AffineOps.h"
 #include "mlir/Dialect/Arithmetic/IR/Arithmetic.h"
 #include "mlir/Dialect/Bufferization/IR/Bufferization.h"
@@ -17,6 +18,8 @@
 #include "mlir/Dialect/Math/IR/Math.h"
 #include "mlir/Dialect/SCF/SCF.h"
 #include "mlir/Dialect/Vector/IR/VectorOps.h"
+#include "mlir/Dialect/MemRef/IR/MemRef.h"
+#include "mlir/Dialect/LLVMIR/LLVMDialect.h"
 #include "mlir/IR/Dialect.h"
 #include "polyaie/Dataflow/Dataflow.h"
 
@@ -37,9 +40,10 @@ inline void registerAllDialects(mlir::DialectRegistry &registry) {
     mlir::vector::VectorDialect,
     mlir::bufferization::BufferizationDialect,
     mlir::LLVM::LLVMDialect,
-    polyaie::dataflow::DataflowDialect,
-    xilinx::AIE::AIEDialect,
-    xilinx::aievec::AIEVecDialect
+    polyaie::dataflow::DataflowDialect //,
+    // 先注释AIE部分，后续再添加
+    // xilinx::AIE::AIEDialect,
+    // xilinx::aievec::AIEVecDialect
   >();
   // clang-format on
 }

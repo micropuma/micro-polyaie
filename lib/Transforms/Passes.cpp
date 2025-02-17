@@ -5,7 +5,9 @@
 //===----------------------------------------------------------------------===//
 
 #include "polyaie/Transforms/Passes.h"
-#include "aie/Dialect/AIEVec/Transforms/Passes.h"
+
+// # 先注释AIE部分，后续再添加
+// #include "aie/Dialect/AIEVec/Transforms/Passes.h"
 #include "mlir/Dialect/Affine/Passes.h"
 #include "mlir/Pass/PassManager.h"
 #include "mlir/Transforms/Passes.h"
@@ -42,11 +44,13 @@ void polyaie::registerPolyAIEPassPipeline() {
         pm.addPass(mlir::createLoopFusionPass());
         // pm.addPass(polyaie::createDetectLoopReductionPass());
         pm.addPass(mlir::createAffineScalarReplacementPass());
-        if (opts.superVectorizeSize != 1) {
-          pm.addPass(mlir::createSuperVectorizePass({opts.superVectorizeSize}));
-          pm.addPass(xilinx::AIE::createAIEVectorOptPass());
-          pm.addPass(xilinx::aievec::createAIEVectorizePass());
-        }
+        
+        // 先注释AIE部分，后续再添加
+        // if (opts.superVectorizeSize != 1) {
+        //   pm.addPass(mlir::createSuperVectorizePass({opts.superVectorizeSize}));
+        //   pm.addPass(xilinx::AIE::createAIEVectorOptPass());
+        //   pm.addPass(xilinx::aievec::createAIEVectorizePass());
+        // }
 
         // Convert to dataflow IR and conduct placement.
         pm.addPass(polyaie::createConvertToDataflowPass());
@@ -57,21 +61,22 @@ void polyaie::registerPolyAIEPassPipeline() {
           pm.addPass(polyaie::createCreateInterfacePass());
         pm.addPass(polyaie::createPrintDataflowPass());
 
+        // 先注释AIE部分，后续再添加
         // Convert to AIE IR and implement data transfers.
-        pm.addPass(polyaie::createDataflowToAIEPass());
-        pm.addPass(mlir::createCanonicalizerPass());
-        if (opts.enableLinkExternKernel)
-          pm.addPass(polyaie::createLinkExternKernelPass(opts));
-        pm.addPass(polyaie::createMaterializeBroadcastPass());
-        pm.addPass(polyaie::createFlowPacketToCircuitPass());
+        // pm.addPass(polyaie::createDataflowToAIEPass());
+        // pm.addPass(mlir::createCanonicalizerPass());
+        // if (opts.enableLinkExternKernel)
+        //   pm.addPass(polyaie::createLinkExternKernelPass(opts));
+        // pm.addPass(polyaie::createMaterializeBroadcastPass());
+        // pm.addPass(polyaie::createFlowPacketToCircuitPass());
 
-        // Materialize tokens with locks, route, and enable double buffering.
-        pm.addPass(xilinx::AIE::createAIECreateLocksPass());
-        pm.addPass(xilinx::AIE::createAIERoutePacketFlowsPass());
-        pm.addPass(xilinx::AIE::createAIERouteFlowsPass());
-        // pm.addPass(xilinx::AIE::createAIEPathfinderPass());
-        pm.addPass(polyaie::createDoubleBufferPass());
-        pm.addPass(polyaie::createPostprocessPass());
+        // // Materialize tokens with locks, route, and enable double buffering.
+        // pm.addPass(xilinx::AIE::createAIECreateLocksPass());
+        // pm.addPass(xilinx::AIE::createAIERoutePacketFlowsPass());
+        // pm.addPass(xilinx::AIE::createAIERouteFlowsPass());
+        // // pm.addPass(xilinx::AIE::createAIEPathfinderPass());
+        // pm.addPass(polyaie::createDoubleBufferPass());
+        // pm.addPass(polyaie::createPostprocessPass());
       });
 }
 

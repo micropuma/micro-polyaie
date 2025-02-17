@@ -1,2 +1,4 @@
 add_subdirectory(polyaie-opt)
-add_subdirectory(polyaie-translate)
+
+# 先注释AIE部分，后续再添加
+# add_subdirectory(polyaie-translate)

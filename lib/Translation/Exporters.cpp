@@ -5,7 +5,9 @@
 //===----------------------------------------------------------------------===//
 
 #include "polyaie/Exporters.h"
-#include "../lib/Targets/AIEVecToCpp/TranslateAIEVecToCpp.h"
+
+// # 先注释AIE部分，后续再添加
+// #include "../lib/Targets/AIEVecToCpp/TranslateAIEVecToCpp.h"
 #include "mlir/Tools/mlir-translate/Translation.h"
 #include "polyaie/InitAllDialects.h"
 

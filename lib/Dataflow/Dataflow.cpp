@@ -5,9 +5,14 @@
 //===----------------------------------------------------------------------===//
 
 #include "polyaie/Dataflow/Dataflow.h"
-#include "aie/AIEDialect.h"
+#include "mlir/Dialect/Func/IR/FuncOps.h"
+
+// 先注释AIE部分，后续再添加
+// #include "aie/AIEDialect.h"
+
 #include "mlir/IR/Builders.h"
 #include "mlir/IR/FunctionImplementation.h"
+
 
 using namespace mlir;
 using namespace polyaie;
@@ -373,26 +378,27 @@ LogicalResult HostDMAOp::verify() { return success(); }
 // AIE Operations - should be factored out to AIE dialect
 //===----------------------------------------------------------------------===//
 
-LogicalResult InterfaceOp::verify() {
-  if (!tile().getDefiningOp<xilinx::AIE::TileOp>())
-    return emitOpError("operand tile must be defined by TileOp");
+// 先注释AIE部分，后续再添加
+// LogicalResult InterfaceOp::verify() {
+//   if (!tile().getDefiningOp<xilinx::AIE::TileOp>())
+//     return emitOpError("operand tile must be defined by TileOp");
 
-  for (auto buf : externalBuffers())
-    if (!buf.getDefiningOp<xilinx::AIE::ExternalBufferOp>())
-      return emitOpError("buffers must be defined by ExternalBufferOp");
+//   for (auto buf : externalBuffers())
+//     if (!buf.getDefiningOp<xilinx::AIE::ExternalBufferOp>())
+//       return emitOpError("buffers must be defined by ExternalBufferOp");
 
-  return success();
-}
+//   return success();
+// }
 
-LogicalResult BroadcastOp::verify() {
-  for (auto operand : getOperands())
-    if (!operand.getDefiningOp<xilinx::AIE::BufferOp>() &&
-        !operand.getDefiningOp<xilinx::AIE::ExternalBufferOp>())
-      return emitOpError(
-          "operand must be defined by BufferOp or ExternalBufferOp");
+// LogicalResult BroadcastOp::verify() {
+//   for (auto operand : getOperands())
+//     if (!operand.getDefiningOp<xilinx::AIE::BufferOp>() &&
+//         !operand.getDefiningOp<xilinx::AIE::ExternalBufferOp>())
+//       return emitOpError(
+//           "operand must be defined by BufferOp or ExternalBufferOp");
 
-  return success();
-}
+//   return success();
+// }
 
 //===----------------------------------------------------------------------===//
 // Include TableGen files
