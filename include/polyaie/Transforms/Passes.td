@@ -9,6 +9,7 @@
 
 include "mlir/Pass/PassBase.td"
 
+// 预处理pass，可选func name和tile size
 def Preprocess : Pass<"polyaie-preprocess", "ModuleOp"> {
   let summary = "Preprocess the IR from phism";
   let constructor = "mlir::polyaie::createPreprocessPass()";
@@ -21,6 +22,9 @@ def Preprocess : Pass<"polyaie-preprocess", "ModuleOp"> {
   ];
 }
 
+// 将top function拆分成多个sub function，通过unrolling loop实现
+// 受底层aie数量限制
+// todo：naive算法
 def SplitTopFunc : Pass<"polyaie-split-top-func", "ModuleOp"> {
   let summary = "Split the top-function";
   let description = [{
@@ -36,6 +40,8 @@ def SplitTopFunc : Pass<"polyaie-split-top-func", "ModuleOp"> {
   ];
 }
 
+// 通过loop analysis，创建memref subview
+// 使得每个loop part可以访问memref subview而不是原始memref
 def CreateMemrefSubview : Pass<"polyaie-create-memref-subview", "func::FuncOp"> {
   let summary = "Create subviews based on loop analysis";
   let description = [{
@@ -56,6 +62,8 @@ def HoistMemrefSubview : Pass<"polyaie-hoist-memref-subview", "ModuleOp"> {
   let constructor = "mlir::polyaie::createHoistMemrefSubviewPass()";
 }
 
+// 将memref参数作为结果返回
+// 需要做显示的copy操作，针对AIE的dma的传输
 def MemrefArgToResult : Pass<"polyaie-memref-arg-to-result", "ModuleOp"> {
   let summary = "Return specified memref arguments as results";
   let description = [{
@@ -70,6 +78,7 @@ def MemrefArgToResult : Pass<"polyaie-memref-arg-to-result", "ModuleOp"> {
   ];
 }
 
+// 针对subfunction构建memref的依赖图，做简易的数据流分析
 def ExtractMemrefDependency :
       Pass<"polyaie-extract-memref-dependency", "ModuleOp"> {
   let summary = "Extract memref dependency";
@@ -80,6 +89,7 @@ def ExtractMemrefDependency :
   let constructor = "mlir::polyaie::createExtractMemrefDependencyPass()";
 }
 
+// 类似aie核心的bufferization操作
 def BufferMemrefResult : Pass<"polyaie-buffer-memref-result", "func::FuncOp"> {
   let summary = "Buffer memref results";
   let description = [{
@@ -93,11 +103,14 @@ def TensorizeMemref : Pass<"polyaie-tensorize-memref", "ModuleOp"> {
   let constructor = "mlir::polyaie::createTensorizeMemrefPass()";
 }
 
+// 通过loop analysis，检测reduction，reduction是一种特殊的memref dependency
+// 阻碍并行化
 def DetectLoopReduction : Pass<"polyaie-detect-loop-reduction", "func::FuncOp"> {
   let summary = "Detect reductions in affine loops";
   let constructor = "mlir::polyaie::createDetectLoopReductionPass()";
 }
 
+// 建立依赖图，转成dataflow dialect
 def ConvertToDataflow : Pass<"polyaie-convert-to-dataflow", "ModuleOp"> {
   let summary = "Extract the depedencies and create dataflow";
   let description = [{
@@ -107,6 +120,7 @@ def ConvertToDataflow : Pass<"polyaie-convert-to-dataflow", "ModuleOp"> {
   let constructor = "mlir::polyaie::createConvertToDataflowPass()";
 }
 
+// AIE架构特性
 def InsertGMIOAdapter : Pass<"polyaie-insert-gmio-adapter", "ModuleOp"> {
   let summary = "Insert empty process node for each GMIO";
   let description = [{
@@ -117,6 +131,8 @@ def InsertGMIOAdapter : Pass<"polyaie-insert-gmio-adapter", "ModuleOp"> {
   let constructor = "mlir::polyaie::createInsertGMIOAdapterPass()";
 }
 
+// AIE架构特性，一个subfunc可以放在AIE核心上，重点研究placement的算法实现
+// 考虑bufferize size和routing distance两个因素
 def Placement : Pass<"polyaie-placement", "ModuleOp"> {
   let summary = "Place function calls to a physical location";
   let description = [{
@@ -135,6 +151,8 @@ def Placement : Pass<"polyaie-placement", "ModuleOp"> {
   ];
 }
 
+// 将与相同的网络-on-chip（NoC，片上网络）或可编程逻辑（PL）接口关联的数据包张量加载/存储操作，
+// 转化为PLIO/GMIO（可编程逻辑输入输出/全局内存输入输出）过程操作。
 def CreateInterface : Pass<"polyaie-create-interface", "ModuleOp"> {
   let summary = "Create interfaces for the dataflow";
   let description = [{

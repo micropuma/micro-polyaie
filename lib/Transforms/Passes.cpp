@@ -80,6 +80,7 @@ void polyaie::registerPolyAIEPassPipeline() {
       });
 }
 
+// pass入口
 void polyaie::registerPolyAIEPasses() {
   registerPasses();
   registerPolyAIEPassPipeline();

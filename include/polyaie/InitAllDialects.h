@@ -29,6 +29,7 @@ namespace polyaie {
 // Add all the related dialects to the provided registry.
 inline void registerAllDialects(mlir::DialectRegistry &registry) {
   // clang-format off
+  // 注册所有的dialect
   registry.insert<
     mlir::func::FuncDialect,
     mlir::cf::ControlFlowDialect,
@@ -40,6 +41,8 @@ inline void registerAllDialects(mlir::DialectRegistry &registry) {
     mlir::vector::VectorDialect,
     mlir::bufferization::BufferizationDialect,
     mlir::LLVM::LLVMDialect,
+
+    // 自定义DataflowDialect，对c++代码到aie的systolic阵列提供抽象
     polyaie::dataflow::DataflowDialect //,
     // 先注释AIE部分，后续再添加
     // xilinx::AIE::AIEDialect,

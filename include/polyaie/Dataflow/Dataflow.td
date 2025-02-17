@@ -17,6 +17,9 @@ include "mlir/IR/FunctionInterfaces.td"
 include "mlir/Interfaces/CallInterfaces.td"
 include "mlir/Interfaces/SideEffectInterfaces.td"
 
+//===----------------------------------------------------------------------===//
+// Dataflow dialect and operations base
+//===----------------------------------------------------------------------===//
 def DataflowDialect : Dialect {
   let name = "dataflow";
   let summary = "A extension of the MLIR MemRef dialect";
@@ -34,6 +37,7 @@ class DataflowOp<string mnemonic, list<Trait> traits = []> :
 // Dataflow Operations
 //===----------------------------------------------------------------------===//
 
+// 一个funcop表征一个函数，这个函数是一个handshaked函数，即每个value只有一个use
 def FuncOp : DataflowOp<"func", [IsolatedFromAbove, FunctionOpInterface, Symbol,
     RegionKindInterface, OpAsmOpInterface]> {
   let summary = "Dataflow dialect function.";
@@ -123,6 +127,9 @@ def FuncOp : DataflowOp<"func", [IsolatedFromAbove, FunctionOpInterface, Symbol,
   // let printer = [{ return ::print$cppClass(p, *this); }];
   // let parser = [{ return ::parse$cppClass(parser, result); }];
 }
+
+// 为进程定义枚举类型
+// 进程类型分为：AIE核上进程、全局内存IO进程、fpga IO进程
 def AIE:  I32EnumAttrCase<"AIE", 0>;
 def GMIO:  I32EnumAttrCase<"GMIO", 1>;
 def PLIO:  I32EnumAttrCase<"PLIO", 2>;
@@ -131,6 +138,13 @@ def ProcessKind: I32EnumAttr<"ProcessKind", "Kind of Process",
   let cppNamespace = "mlir::polyaie";
 }
 
+// 定义数据流抽象中的进程概念
+// 一个process是isolated from above，即
+// %result = arith.constant 10 : i32
+// foo.region_op {
+//  foo.yield %result : i32
+// }
+// 是不允许的
 def ProcessOp : DataflowOp<"process", [IsolatedFromAbove]> {
   let summary = "process operation";
   let description = [{
@@ -166,6 +180,7 @@ def ProcessOp : DataflowOp<"process", [IsolatedFromAbove]> {
   }];
 }
 
+// 是一个region op的显示terminator op
 def ReturnOp : DataflowOp<"return", [Terminator]> {
   let summary = "return operation of a process";
   let description = [{
@@ -179,6 +194,8 @@ def ReturnOp : DataflowOp<"return", [Terminator]> {
   // let verifier = "return ::verify(*this);";
 }
 
+// 定义一个tensor的获取操作，从内存中获取一个tensor
+// 选用的trait指定了输入和输出的类型是相同的
 def TensorLoadOp : DataflowOp<"tensor_load",
     [SameOperandsAndResultElementType]> {
   let summary = "tensor load operation";
@@ -212,8 +229,10 @@ def TensorStoreOp : DataflowOp<"tensor_store", [SameOperandsElementType]> {
 
 //===----------------------------------------------------------------------===//
 // Runtime Operations - should be factored out to a new dialect
+// 这一部分的操作主要是描述运行时的行为的，是dataflow dialect和aie dialect交集ops 
 //===----------------------------------------------------------------------===//
 
+// 定义host dma的类型
 def HostToDDR:  I32EnumAttrCase<"HostToDDR", 0>;
 def HostToAIE:  I32EnumAttrCase<"HostToAIE", 1>;
 def DDRToHost:  I32EnumAttrCase<"DDRToHost", 2>;
@@ -223,6 +242,8 @@ def HostDMAKind: I32EnumAttr<"HostDMAKind", "Kind of Host DMA",
   let cppNamespace = "mlir::polyaie";
 }
 
+// 描述主机侧的dma传输，是和外部存储通过DDR做交互，或是和AIE核做交互。
+// 相反方向也是同一描述方式，没有描述AIE to AIE的DMA传输
 def HostDMAOp : DataflowOp<"runtime.host_dma", [SameOperandsElementType]> {
   let summary = "Host DMA operation";
   let description = [{
@@ -241,6 +262,8 @@ def HostDMAOp : DataflowOp<"runtime.host_dma", [SameOperandsElementType]> {
 // AIE Operations - should be factored out to AIE dialect
 //===----------------------------------------------------------------------===//
 
+// 这部分是方便Dataflow dialect接入AIE dialect
+// 针对AIE核心与external memory交互，抽象接口，该接口可以是ShimNoc或ShimPL
 def InterfaceOp : DataflowOp<"aie.interface", []> {
   let summary = "Represent a logical tile interface";
   let description = [{
@@ -256,6 +279,7 @@ def InterfaceOp : DataflowOp<"aie.interface", []> {
   // let verifier = "return ::verify(*this);";
 }
 
+// 定义AIE核心之间的broadcast操作
 def BroadcastOp : DataflowOp<"aie.broadcast", [SameTypeOperands]> {
   let summary = "Memory broadcast operation";
   let description = [{
