@@ -3,3 +3,6 @@ tmp
 
 *.elf
 *.log
+
+/llvm
+/mlir-aie
