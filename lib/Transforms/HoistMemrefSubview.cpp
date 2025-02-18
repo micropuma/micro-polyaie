@@ -27,6 +27,7 @@ void HoistMemrefSubview::runOnOperation() {
   llvm::SmallDenseMap<Value, SmallVector<Value, 16>, 32> subviewsMap;
 
   for (auto call : topFunc.getOps<CallOp>()) {
+    // Only if the callee is a function, there's a chance to hoist the subviews
     auto func = mod.lookupSymbol<FuncOp>(call.getCallee());
     auto inputTypes = SmallVector<Type, 8>(func.getArgumentTypes().begin(),
                                            func.getArgumentTypes().end());
@@ -35,6 +36,8 @@ void HoistMemrefSubview::runOnOperation() {
          llvm::make_early_inc_range(func.getOps<memref::SubViewOp>())) {
       // Only if the source of the current subview is an argument, there's a
       // chance to hoist the subview out of the current sub-function.
+
+      // convert subview source to BlockArgument
       auto arg = subview.source().dyn_cast<BlockArgument>();
       if (!arg)
         continue;
@@ -59,6 +62,8 @@ void HoistMemrefSubview::runOnOperation() {
       if (existSubview != subviews.end())
         subview.erase();
       else {
+        // erase 导致整个subview内存没了
+        // remove仍旧保留subview
         subview->remove();
         if (auto alloc = memory.getDefiningOp())
           b.setInsertionPointAfter(alloc);

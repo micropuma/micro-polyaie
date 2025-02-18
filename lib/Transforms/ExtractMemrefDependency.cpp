@@ -18,11 +18,14 @@ struct ExtractMemrefDependency
 };
 } // namespace
 
+// 这个 Pass 主要目的是优化内存操作，减少冗余拷贝，同时确保子视图的复用。
 void ExtractMemrefDependency::runOnOperation() {
   auto mod = getOperation();
   auto topFunc = getTopFunc<FuncOp>(mod);
 
   // Hold the subviews list (or itself) of each global memory.
+  // 存储一个全局内存和它的子视图列表（或者它本身）。
+  // 这个列表是一个键值对，键是全局内存，值是一个 Value 的列表。
   llvm::SmallDenseMap<Value, SmallVector<Value, 16>, 32> subviewsMap;
 
   // Construct explicit dependencies between memrefs.
@@ -33,8 +36,11 @@ void ExtractMemrefDependency::runOnOperation() {
     for (auto &operand : call->getOpOperands()) {
       // Get the existing subviews list of the current memory.
       auto memory = operand.get();
+
+      // operand的define point如果是subview，则取subview的source作为依赖
       if (auto subview = memory.getDefiningOp<memref::SubViewOp>())
         memory = subview.source();
+      // subviews去memory中的映射
       auto &subviews = subviewsMap[memory];
 
       // Figure out if there exists an subview that has the same type. If so,

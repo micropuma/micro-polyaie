@@ -17,6 +17,10 @@ using namespace mlir;
 using namespace polyaie;
 using namespace func;
 
+/// 根据funcOp里面的call的数量，计算出unroll factor
+/// 受到aie核心数的约束
+/// 最终目标是将一个函数拆分成多个函数，每个函数只有一个call
+
 /// Helper to get the total number of calls in the block.
 static unsigned getNumCall(FuncOp func) {
   unsigned numCall = 0;

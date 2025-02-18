@@ -70,6 +70,7 @@ static void removeLayoutMap(OpBuilder &b, OpType op, Args &&...args) {
   op.erase();
 }
 
+// 将 memref 转换为 tensor 类型，以便应用更多的优化和高效的操作。
 void TensorizeMemref::runOnOperation() {
   auto mod = getOperation();
   auto b = OpBuilder(mod);

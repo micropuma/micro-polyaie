@@ -11,6 +11,8 @@ using namespace mlir;
 using namespace polyaie;
 using namespace dataflow;
 
+// 最纯正的模拟退火算法
+// 后续可以参考诸如TVM等框架的布局算法
 namespace {
 using PhysicalLocation = std::pair<unsigned, unsigned>;
 
