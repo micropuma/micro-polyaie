@@ -20,8 +20,8 @@ POLYAIE_OPT=$PWD/../build/bin/polyaie-opt
 # Get the absolute path of the current directory.
 DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" &> /dev/null && pwd )"
 TMP_DIR=${DIR}/tmp
-rm -rf ${TMP_DIR}
-mkdir -p ${TMP_DIR}
+# rm -rf ${TMP_DIR}
+# mkdir -p ${TMP_DIR}
 
 # Run polyaie to generate the AIE IR of GEMM.
 PIPELINE_OPTS="top-func-name=gemm "
@@ -34,8 +34,8 @@ PIPELINE_OPTS+="enable-link-extern-kernel=${EXTERN_KERNEL} "
 PIPELINE_OPTS+="object-file=${OBJECT_FILE} "
 PIPELINE_OPTS+="gen-extern-kernel=${GEN_EXTERN_KERNEL}"
 
-${POLYAIE_OPT} ${DIR}/gemm.mlir \
+${POLYAIE_OPT} ${DIR}/gemm-simple.mlir \
   -polyaie-pipeline="${PIPELINE_OPTS}" \
-  -debug \
-  -o ${TMP_DIR}/gemm.polyaie.mlir \
-  2>&1 | tee ${TMP_DIR}/gemm.polyaie.log
+  --mlir-print-ir-after-all \
+  -debug-only=dialect-conversion \
+  2>&1 | tee ${TMP_DIR}/gemm.polyaie-debug.log
