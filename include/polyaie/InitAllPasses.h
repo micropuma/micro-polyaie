@@ -8,7 +8,7 @@
 #define POLYAIE_INITALLPASSES_H
 
 // 先注释AIE部分，后续再添加
-// #include "aie/Dialect/AIEVec/Transforms/Passes.h"
+// #include "polyaie/AIE/Dialect/AIEVec/Transforms/Passes.h"
 #include "mlir/InitAllPasses.h"
 #include "polyaie/Transforms/Passes.h"
 

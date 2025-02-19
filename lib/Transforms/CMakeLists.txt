@@ -15,7 +15,7 @@ add_mlir_library(MLIRPolyAIEPasses
   PrintDataflow.cpp
 
   # 先注释AIE部分，后续再添加
-  # DataflowToAIE.cpp
+  DataflowToAIE.cpp
   # LinkExternKernel.cpp
   # MaterializeBroadcast.cpp
   # FlowPacketToCircuit.cpp

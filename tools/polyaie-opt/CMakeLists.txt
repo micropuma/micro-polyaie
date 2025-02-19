@@ -14,7 +14,7 @@ target_link_libraries(polyaie-opt
   ${all_libs}
 
   # # 先注释AIE部分，后续再添加
-  # AIE
+  AIE
   # MLIRAIEVec
   # MLIRAIEVecTransforms
   MLIRPolyAIESupport

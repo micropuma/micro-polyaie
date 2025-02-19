@@ -8,7 +8,7 @@
 #include "mlir/Dialect/Func/IR/FuncOps.h"
 
 // 先注释AIE部分，后续再添加
-// #include "aie/AIEDialect.h"
+// #include "polyaie/AIE/AIEDialect.h"
 
 #include "mlir/IR/Builders.h"
 #include "mlir/IR/FunctionImplementation.h"

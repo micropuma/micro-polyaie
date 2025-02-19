@@ -7,7 +7,7 @@
 #include "polyaie/Utils.h"
 
 // 先注释AIE部分，后续再添加
-// #include "aie/AIEDialect.h"
+// #include "polyaie/AIE/AIEDialect.h"
 #include "mlir/IR/AffineMap.h"
 
 using namespace mlir;

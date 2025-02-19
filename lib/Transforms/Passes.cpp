@@ -7,7 +7,7 @@
 #include "polyaie/Transforms/Passes.h"
 
 // # 先注释AIE部分，后续再添加
-// #include "aie/Dialect/AIEVec/Transforms/Passes.h"
+// #include "polyaie/AIE/Dialect/AIEVec/Transforms/Passes.h"
 #include "mlir/Dialect/Affine/Passes.h"
 #include "mlir/Pass/PassManager.h"
 #include "mlir/Transforms/Passes.h"
@@ -64,7 +64,7 @@ void polyaie::registerPolyAIEPassPipeline() {
         // 先注释AIE部分，后续再添加
         // 打开注释 
         // Convert to AIE IR and implement data transfers.
-        // pm.addPass(polyaie::createDataflowToAIEPass());
+        pm.addPass(polyaie::createDataflowToAIEPass());
         // pm.addPass(mlir::createCanonicalizerPass());
         // if (opts.enableLinkExternKernel)
         //   pm.addPass(polyaie::createLinkExternKernelPass(opts));
