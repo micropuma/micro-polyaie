@@ -19,5 +19,5 @@ target_link_libraries(polyaie-opt
   # MLIRAIEVecTransforms
   MLIRPolyAIESupport
   MLIRDataflow
-  # MLIRPolyAIEPasses
+  MLIRPolyAIEPasses
   )
