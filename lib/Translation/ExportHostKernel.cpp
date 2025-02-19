@@ -4,7 +4,7 @@
 //
 //===----------------------------------------------------------------------===//
 // 先注释AIE部分，后续再添加
-// #include "polyaie/AIE/AIEDialect.h"
+#include "polyaie/AIE/AIEDialect.h"
 
 #include "polyaie/Exporters.h"
 #include "polyaie/InitAllDialects.h"

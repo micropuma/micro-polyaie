@@ -9,7 +9,7 @@
 
 // 先注释aie部分，后续再添加
 #include "polyaie/AIE/AIEDialect.h"
-// #include "polyaie/AIE/Dialect/AIEVec/IR/AIEVecOps.h"
+#include "polyaie/AIE/Dialect/AIEVec/IR/AIEVecOps.h"
 #include "mlir/Dialect/Affine/IR/AffineOps.h"
 #include "mlir/Dialect/Arithmetic/IR/Arithmetic.h"
 #include "mlir/Dialect/Bufferization/IR/Bufferization.h"

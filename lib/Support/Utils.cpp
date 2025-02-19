@@ -7,7 +7,7 @@
 #include "polyaie/Utils.h"
 
 // 先注释AIE部分，后续再添加
-// #include "polyaie/AIE/AIEDialect.h"
+#include "polyaie/AIE/AIEDialect.h"
 #include "mlir/IR/AffineMap.h"
 
 using namespace mlir;
@@ -70,23 +70,23 @@ bool polyaie::adjacent(unsigned srcRow, unsigned srcCol, unsigned tgtRow,
 }
 
 // 先注释AIE部分，后续再添加
-// xilinx::AIE::TileOp polyaie::getShareableTile(xilinx::AIE::TileOp tileA,
-//                                               xilinx::AIE::TileOp tileB) {
-//   auto colA = tileA.col();
-//   auto rowA = tileA.row();
-//   auto colB = tileB.col();
-//   auto rowB = tileB.row();
+xilinx::AIE::TileOp polyaie::getShareableTile(xilinx::AIE::TileOp tileA,
+                                              xilinx::AIE::TileOp tileB) {
+  auto colA = tileA.col();
+  auto rowA = tileA.row();
+  auto colB = tileB.col();
+  auto rowB = tileB.row();
 
-//   bool isS = xilinx::AIE::isSouth(colA, rowA, colB, rowB);
-//   bool isW = xilinx::AIE::isWest(colA, rowA, colB, rowB);
-//   bool isN = xilinx::AIE::isNorth(colA, rowA, colB, rowB);
-//   bool isE = xilinx::AIE::isEast(colA, rowA, colB, rowB);
-//   bool isEvenRow = ((rowA % 2) == 0);
+  bool isS = xilinx::AIE::isSouth(colA, rowA, colB, rowB);
+  bool isW = xilinx::AIE::isWest(colA, rowA, colB, rowB);
+  bool isN = xilinx::AIE::isNorth(colA, rowA, colB, rowB);
+  bool isE = xilinx::AIE::isEast(colA, rowA, colB, rowB);
+  bool isEvenRow = ((rowA % 2) == 0);
 
-//   if (isS || isN || (isW && isEvenRow) || (isE && !isEvenRow))
-//     return tileB;
-//   if ((isW && !isEvenRow) || (isE && isEvenRow))
-//     return tileA;
+  if (isS || isN || (isW && isEvenRow) || (isE && !isEvenRow))
+    return tileB;
+  if ((isW && !isEvenRow) || (isE && isEvenRow))
+    return tileA;
 
-//   return nullptr;
-// }
+  return nullptr;
+}
