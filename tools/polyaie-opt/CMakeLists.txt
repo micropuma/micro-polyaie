@@ -15,8 +15,8 @@ target_link_libraries(polyaie-opt
 
   # # 先注释AIE部分，后续再添加
   AIE
-  # MLIRAIEVec
-  # MLIRAIEVecTransforms
+  MLIRAIEVec
+  MLIRAIEVecTransforms
   MLIRPolyAIESupport
   MLIRDataflow
   MLIRPolyAIEPasses
