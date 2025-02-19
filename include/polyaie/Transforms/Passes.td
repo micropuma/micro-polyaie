@@ -168,15 +168,16 @@ def PrintDataflow : Pass<"polyaie-print-dataflow", "ModuleOp"> {
 }
 
 // 先注释AIE部分，后续再添加
-// def DataflowToAIE : Pass<"polyaie-dataflow-to-aie", "ModuleOp"> {
-//   let summary = "Convert to the logical-level IR of AIE";
-//   let description = [{
-//     Lower dataflow processes to AIE tiles and cores, create local buffers,
-//     create MemOp and FlowOp to implement the dependencies between AIE tiles,
-//     lower buffer load and store operations.
-//   }];
-//   let constructor = "mlir::polyaie::createDataflowToAIEPass()";
-// }
+// 打开注释 
+def DataflowToAIE : Pass<"polyaie-dataflow-to-aie", "ModuleOp"> {
+  let summary = "Convert to the logical-level IR of AIE";
+  let description = [{
+    Lower dataflow processes to AIE tiles and cores, create local buffers,
+    create MemOp and FlowOp to implement the dependencies between AIE tiles,
+    lower buffer load and store operations.
+  }];
+  let constructor = "mlir::polyaie::createDataflowToAIEPass()";
+}
 
 // def LinkExternKernel : Pass<"polyaie-link-extern-kernel", "ModuleOp"> {
 //   let summary = "Substitute each function body with an external kernel";

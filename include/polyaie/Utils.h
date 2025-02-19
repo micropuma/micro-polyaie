@@ -8,7 +8,8 @@
 #define POLYAIE_UTILS_H
 
 // 先注释AIE部分，后续再添加
-// #include "aie/AIEDialect.h"
+// 打开注释 
+#include "polyaie/AIE/AIEDialect.h"
 #include "mlir/Dialect/Affine/IR/AffineOps.h"
 #include "mlir/IR/BlockSupport.h"
 #include "mlir/IR/BuiltinTypes.h"
@@ -42,9 +43,10 @@ unsigned getRow(Operation *op);
 bool adjacent(unsigned srcRow, unsigned srcCol, unsigned tgtRow,
               unsigned tgtCol);
 
-// 先注释AIE部分，后续再添加 
-// xilinx::AIE::TileOp getShareableTile(xilinx::AIE::TileOp tileA,
-//                                      xilinx::AIE::TileOp tileB);
+// 先注释AIE部分，后续再添加
+// 打开注释 
+xilinx::AIE::TileOp getShareableTile(xilinx::AIE::TileOp tileA,
+                                     xilinx::AIE::TileOp tileB);
 
 using UserIterator = Value::user_iterator;
 

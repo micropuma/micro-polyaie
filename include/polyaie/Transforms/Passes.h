@@ -101,7 +101,8 @@ std::unique_ptr<Pass> createCreateInterfacePass();
 std::unique_ptr<Pass> createPrintDataflowPass();
 
 // 先注释AIE部分，后续再添加
-// std::unique_ptr<Pass> createDataflowToAIEPass();
+// 打开注释 
+std::unique_ptr<Pass> createDataflowToAIEPass();
 // std::unique_ptr<Pass> createLinkExternKernelPass();
 // std::unique_ptr<Pass> createLinkExternKernelPass(const PolyAIEOptions &opts);
 // std::unique_ptr<Pass> createMaterializeBroadcastPass();

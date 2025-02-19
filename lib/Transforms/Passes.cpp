@@ -62,8 +62,9 @@ void polyaie::registerPolyAIEPassPipeline() {
         pm.addPass(polyaie::createPrintDataflowPass());
 
         // 先注释AIE部分，后续再添加
+        // 打开注释 
         // Convert to AIE IR and implement data transfers.
-        // pm.addPass(polyaie::createDataflowToAIEPass());
+        pm.addPass(polyaie::createDataflowToAIEPass());
         // pm.addPass(mlir::createCanonicalizerPass());
         // if (opts.enableLinkExternKernel)
         //   pm.addPass(polyaie::createLinkExternKernelPass(opts));
