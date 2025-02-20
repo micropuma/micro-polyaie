@@ -3,7 +3,7 @@
 // Copyright 2021-2022 The PolyAIE Authors.
 //
 //===----------------------------------------------------------------------===//
-// 先注释AIE部分，后续再添加
+
 #include "polyaie/AIE/AIEDialect.h"
 
 #include "polyaie/Exporters.h"
@@ -14,8 +14,8 @@ using namespace mlir;
 using namespace polyaie;
 using namespace dataflow;
 
-// # 先注释AIE部分，后续再添加
-// using namespace xilinx::AIE;
+// 
+using namespace xilinx::AIE;
 
 static llvm::cl::opt<bool>
     dryRunHostKernel("dry-run-host-kernel",

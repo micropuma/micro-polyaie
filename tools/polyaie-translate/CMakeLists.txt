@@ -18,11 +18,11 @@ target_link_libraries(polyaie-translate
   PRIVATE
   ${dialect_libs}
   ${translation_libs}
-  # AIE
-  # MLIRAIEVec
+  AIE
+  MLIRAIEVec
   MLIRDataflow
-  # MLIRTargetAIEVecCpp
-  # 先注释AIE部分，后续再添加
-  # MLIRPolyAIEExporters
+  MLIRTargetAIEVecCpp
+  
+  MLIRPolyAIEExporters
   MLIRPolyAIESupport
   )

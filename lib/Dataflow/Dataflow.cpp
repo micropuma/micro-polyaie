@@ -7,7 +7,7 @@
 #include "polyaie/Dataflow/Dataflow.h"
 #include "mlir/Dialect/Func/IR/FuncOps.h"
 
-// 先注释AIE部分，后续再添加
+
 #include "polyaie/AIE/AIEDialect.h"
 
 #include "mlir/IR/Builders.h"
@@ -378,7 +378,7 @@ LogicalResult HostDMAOp::verify() { return success(); }
 // AIE Operations - should be factored out to AIE dialect
 //===----------------------------------------------------------------------===//
 
-// 先注释AIE部分，后续再添加
+
 LogicalResult InterfaceOp::verify() {
   if (!tile().getDefiningOp<xilinx::AIE::TileOp>())
     return emitOpError("operand tile must be defined by TileOp");

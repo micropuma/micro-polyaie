@@ -41,6 +41,6 @@ add_mlir_dialect_library(AIE
   MLIRVector
   )
 
-# 先注释AIE部分，后续再添加
+
 add_subdirectory(Targets)
 add_subdirectory(Dialect)

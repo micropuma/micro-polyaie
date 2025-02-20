@@ -13,7 +13,7 @@ target_link_libraries(polyaie-opt
   PRIVATE
   ${all_libs}
 
-  # # 先注释AIE部分，后续再添加
+  # 
   AIE
   MLIRAIEVec
   MLIRAIEVecTransforms

@@ -6,7 +6,7 @@
 
 #include "polyaie/Transforms/Passes.h"
 
-// # 先注释AIE部分，后续再添加
+// 
 #include "polyaie/AIE/Dialect/AIEVec/Transforms/Passes.h"
 #include "mlir/Dialect/Affine/Passes.h"
 #include "mlir/Pass/PassManager.h"
@@ -45,12 +45,12 @@ void polyaie::registerPolyAIEPassPipeline() {
         // pm.addPass(polyaie::createDetectLoopReductionPass());
         pm.addPass(mlir::createAffineScalarReplacementPass());
         
-        // 先注释AIE部分，后续再添加
-        // if (opts.superVectorizeSize != 1) {
-        //   pm.addPass(mlir::createSuperVectorizePass({opts.superVectorizeSize}));
-        //   pm.addPass(xilinx::AIE::createAIEVectorOptPass());
-        //   pm.addPass(xilinx::aievec::createAIEVectorizePass());
-        // }
+        
+        if (opts.superVectorizeSize != 1) {
+          pm.addPass(mlir::createSuperVectorizePass({opts.superVectorizeSize}));
+          pm.addPass(xilinx::AIE::createAIEVectorOptPass());
+          pm.addPass(xilinx::aievec::createAIEVectorizePass());
+        }
 
         // Convert to dataflow IR and conduct placement.
         pm.addPass(polyaie::createConvertToDataflowPass());
@@ -61,8 +61,8 @@ void polyaie::registerPolyAIEPassPipeline() {
           pm.addPass(polyaie::createCreateInterfacePass());
         pm.addPass(polyaie::createPrintDataflowPass());
 
-        // 先注释AIE部分，后续再添加
-        // 打开注释 
+        
+        
         // Convert to AIE IR and implement data transfers.
         pm.addPass(polyaie::createDataflowToAIEPass());
         pm.addPass(mlir::createCanonicalizerPass());

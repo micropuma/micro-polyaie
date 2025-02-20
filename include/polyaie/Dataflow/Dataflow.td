@@ -274,7 +274,7 @@ def InterfaceOp : DataflowOp<"aie.interface", []> {
 
   let arguments = (ins Index:$tile, Variadic<AnyMemRef>:$externalBuffers);
 
-  // 先注释AIE部分，后续再添加
+  
   let hasVerifier = 1;
   // let verifier = "return ::verify(*this);";
 }
@@ -288,7 +288,7 @@ def BroadcastOp : DataflowOp<"aie.broadcast", [SameTypeOperands]> {
 
   let arguments = (ins AnyMemRef:$source, Variadic<AnyMemRef>:$targets);
 
-  // 先注释AIE部分，后续再添加
+  
   let hasVerifier = 1;
   // let verifier = "return ::verify(*this);";
 }

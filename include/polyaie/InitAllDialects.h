@@ -7,7 +7,6 @@
 #ifndef POLYAIE_INITALLDIALECTS_H
 #define POLYAIE_INITALLDIALECTS_H
 
-// 先注释aie部分，后续再添加
 #include "polyaie/AIE/AIEDialect.h"
 #include "polyaie/AIE/Dialect/AIEVec/IR/AIEVecOps.h"
 #include "mlir/Dialect/Affine/IR/AffineOps.h"
@@ -44,9 +43,8 @@ inline void registerAllDialects(mlir::DialectRegistry &registry) {
 
     // 自定义DataflowDialect，对c++代码到aie的systolic阵列提供抽象
     polyaie::dataflow::DataflowDialect,
-    // 先注释AIE部分，后续再添加
-    xilinx::AIE::AIEDialect
-    // xilinx::aievec::AIEVecDialect
+    xilinx::AIE::AIEDialect,
+    xilinx::aievec::AIEVecDialect
   >();
   // clang-format on
 }

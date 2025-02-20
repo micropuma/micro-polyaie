@@ -167,8 +167,8 @@ def PrintDataflow : Pass<"polyaie-print-dataflow", "ModuleOp"> {
   let constructor = "mlir::polyaie::createPrintDataflowPass()";
 }
 
-// 先注释AIE部分，后续再添加
-// 打开注释 
+
+
 def DataflowToAIE : Pass<"polyaie-dataflow-to-aie", "ModuleOp"> {
   let summary = "Convert to the logical-level IR of AIE";
   let description = [{

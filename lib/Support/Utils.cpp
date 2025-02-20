@@ -6,7 +6,7 @@
 
 #include "polyaie/Utils.h"
 
-// 先注释AIE部分，后续再添加
+
 #include "polyaie/AIE/AIEDialect.h"
 #include "mlir/IR/AffineMap.h"
 
@@ -69,7 +69,7 @@ bool polyaie::adjacent(unsigned srcRow, unsigned srcCol, unsigned tgtRow,
           std::abs((int64_t)srcCol - (int64_t)tgtCol)) == 1;
 }
 
-// 先注释AIE部分，后续再添加
+
 xilinx::AIE::TileOp polyaie::getShareableTile(xilinx::AIE::TileOp tileA,
                                               xilinx::AIE::TileOp tileB) {
   auto colA = tileA.col();
