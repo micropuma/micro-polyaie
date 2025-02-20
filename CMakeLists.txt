@@ -20,9 +20,6 @@ set(CMAKE_CXX_STANDARD_REQUIRED YES)
 
 find_package(MLIR REQUIRED CONFIG)
 
-# 先注释AIE部分，后续再添加
-# find_package(AIE REQUIRED CONFIG)
-
 message(STATUS "Using MLIRConfig.cmake in: ${MLIR_DIR}")
 message(STATUS "Using LLVMConfig.cmake in: ${LLVM_DIR}")
 message(STATUS "Using AIEConfig.cmake in: ${AIE_DIR}")
@@ -47,8 +44,6 @@ set(POLYAIE_TOOLS_DIR ${CMAKE_BINARY_DIR}/bin)
 list(APPEND CMAKE_MODULE_PATH "${MLIR_CMAKE_DIR}")
 list(APPEND CMAKE_MODULE_PATH "${LLVM_CMAKE_DIR}")
 
-# 先注释AIE部分，后续再添加
-# list(APPEND CMAKE_MODULE_PATH "${AIE_CMAKE_DIR}")
 include(TableGen)
 include(AddLLVM)
 include(AddMLIR)
@@ -61,13 +56,9 @@ include_directories(${PROJECT_SOURCE_DIR}/include)
 include_directories(${PROJECT_BINARY_DIR}/include)
 
 link_directories(${LLVM_BUILD_LIBRARY_DIR})
-# 先注释AIE部分，后续再添加
-# link_directories(${AIE_CMAKE_DIR}/../..)
 add_definitions(${LLVM_DEFINITIONS})
 
 add_subdirectory(include/polyaie)
 add_subdirectory(lib)
 
-# 先注释AIE部分，后续再添加
-# add_subdirectory(test)
 add_subdirectory(tools)

@@ -42,10 +42,20 @@ ${POLYAIE_OPT} ${DIR}/gemm-simple.mlir \
   -polyaie-pipeline="${PIPELINE_OPTS}" \
   --mlir-print-ir-after-all \
   -debug-only=dialect-conversion \
+  -o ${TMP_DEBUG_DIR}/gemm.polyaie.mlir \
   2>&1 | tee ${TMP_DEBUG_DIR}/gemm.polyaie-debug.log
 
 ${POLYAIE_OPT} ${DIR}/gemm.mlir \
   -polyaie-pipeline="${PIPELINE_OPTS}" \
   --mlir-print-ir-after-all \
   -debug-only=dialect-conversion \
+  -o ${TMP_DIR}/gemm.polyaie.mlir \
   2>&1 | tee ${TMP_DIR}/gemm.polyaie-debug.log
+
+${POLYAIE_OPT} -polyaie-codegen-cleanup \
+  ${TMP_DIR}/gemm.polyaie.mlir \
+  > ${TMP_DIR}/gemm.polyaie.mliraie.mlir
+
+${POLYAIE_OPT} -polyaie-codegen-cleanup \
+  ${TMP_DEBUG_DIR}/gemm.polyaie.mlir \
+  > ${TMP_DEBUG_DIR}/gemm.polyaie.mliraie.mlir
