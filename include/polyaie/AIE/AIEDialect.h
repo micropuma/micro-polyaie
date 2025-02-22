@@ -54,7 +54,7 @@ void registerAIETranslations();
 class AIEDialect : public mlir::Dialect {
 public:
   explicit AIEDialect(mlir::MLIRContext *ctx);
-  static StringRef getDialectNamespace() { return "AIE"; }
+  static StringRef getDialectNamespace() { return "aie"; }
 
   // /// Parse a type registered to this dialect. Overridding this method is
   // /// required for dialects that have custom types.

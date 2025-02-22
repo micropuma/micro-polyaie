@@ -1,5 +1,5 @@
 module @gemm {
-  %0 = aie.tile(24, 2) {polyaie.leaf}
+  %0 = aie.tile(25, 2) {polyaie.leaf}
   %1 = aie.lock(%0, 15)
   %2 = aie.buffer(%0) {sym_name = "buf0"} : memref<2x2xf32>
   %3 = aie.buffer(%0) {sym_name = "buf1"} : memref<2x2xf32>
@@ -20,7 +20,7 @@ module @gemm {
         }
       }
     }
-    aie.useLock(%1, Release, 1) {polyaie.runtime}
+    aie.use_lock(%1, Release, 1) {polyaie.runtime}
     aie.end
   }
 }

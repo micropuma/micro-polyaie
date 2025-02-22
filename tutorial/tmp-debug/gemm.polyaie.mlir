@@ -2,7 +2,7 @@ module @gemm {
   %0 = memref.alloc() : memref<2x2xf32>
   %1 = memref.alloc() : memref<2x2xf32>
   %2 = memref.alloc() : memref<2x2xf32>
-  %3 = aie.tile(24, 2) {polyaie.leaf}
+  %3 = aie.tile(25, 2) {polyaie.leaf}
   %4 = aie.lock(%3, 15)
   %5 = aie.buffer(%3) {sym_name = "buf0"} : memref<2x2xf32>
   "dataflow.runtime.host_dma"(%0, %5) {kind = 3 : i32, offsets = [0, 0], sizes = [2, 2], strides = [1, 1]} : (memref<2x2xf32>, memref<2x2xf32>) -> ()
@@ -27,7 +27,7 @@ module @gemm {
         }
       }
     }
-    aie.useLock(%4, Release, 1) {polyaie.runtime}
+    aie.use_lock(%4, Release, 1) {polyaie.runtime}
     aie.end
   }
 }

@@ -970,7 +970,7 @@ def LockBlocking: I32EnumAttr<"LockBlocking", "lock operation is blocking",
   let cppNamespace = "xilinx::AIE";
 }
 
-def AIE_UseLockOp: AIE_Op<"useLock", []> {
+def AIE_UseLockOp: AIE_Op<"use_lock", []> {
   let summary = "acquire/release lock op";
   let description = [{
     This operation uses a lock. A lock can be acquired with a value, or release with a value.
