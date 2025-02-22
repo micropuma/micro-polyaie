@@ -39,8 +39,6 @@ PIPELINE_OPTS+="enable-link-extern-kernel=${EXTERN_KERNEL} "
 PIPELINE_OPTS+="object-file=${OBJECT_FILE} "
 PIPELINE_OPTS+="gen-extern-kernel=${GEN_EXTERN_KERNEL}"
 
-
-
 ${POLYAIE_OPT} ${DIR}/gemm.mlir \
   -polyaie-pipeline="${PIPELINE_OPTS}" \
   --mlir-print-ir-after-all \
