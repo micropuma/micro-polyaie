@@ -2,13 +2,15 @@
     "version": "0.2.0",
     "configurations": [
         {
-            "name": "Debug polyaie-opt Pipeline",
+            "name": "Polyaie translate",
             "type": "cppdbg",
             "request": "launch",
-            "program": "/home/douliyang/large/mlir-workspace/micro-polyaie/build/bin/polyaie-opt",
+            "program": "/home/douliyang/large/mlir-workspace/micro-polyaie/build/bin/polyaie-translate",
             "args": [
-                "/home/douliyang/large/mlir-workspace/micro-polyaie/tutorial/gemm.mlir",
-                "-polyaie-pipeline=top-func-name=gemm return-all-arg=false tile-size=32 vec-size=1 algorithm=simulated-annealing enable-create-interface=false enable-link-extern-kernel=true object-file=kernel.o gen-extern-kernel=false",
+                "/home/douliyang/large/mlir-workspace/micro-polyaie/tutorial/tmp-debug/gemm.polyaie.mlir",
+                "-export-host-kernel",
+                "-dry-run-host-kernel=false",
+                "-debug-tile=false",
                 "-debug"
             ],
             "stopAtEntry": false,

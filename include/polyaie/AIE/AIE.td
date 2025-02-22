@@ -27,7 +27,7 @@ include "mlir/Interfaces/SideEffectInterfaces.td"
 include "AIEInterfaces.td"
 
 def AIE_Dialect : Dialect {
-  let name = "AIE";
+  let name = "aie";
   let cppNamespace = "::xilinx::AIE";
   let description = [{
 
