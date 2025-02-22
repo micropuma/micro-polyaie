@@ -90,6 +90,13 @@ void Postprocess::runOnOperation() {
     else if (tile->hasAttr("polyaie.leaf")) {
       b.setInsertionPointAfter(tile);
       auto lock = b.create<LockOp>(loc, tile, 15);
+
+      // Create symbol name for each LockOp.
+      int col = tile.colIndex();
+      int row = tile.rowIndex();
+      std::string name = "lock_" + std::to_string(col) + "_" + std::to_string(row) + "_" + std::to_string(lock.getLockID());
+      lock->setAttr("sym_name", b.getStringAttr(name));
+
       b.setInsertionPoint(tile.getCoreOp().body().front().getTerminator());
       auto useLock = b.create<UseLockOp>(loc, lock, 1, LockAction::Release);
       // TODO: How to implement this?

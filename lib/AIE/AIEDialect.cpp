@@ -510,6 +510,13 @@ template <typename... ParentOpTypes> struct HasSomeParent {
   }
 };
 
+// %3 = aie.lock(%0, 15)
+// lock.tile()返回第一个operand，即%0
+// lock.tile().getDefiningOp()返回tile的定义，即tileOp
+xilinx::AIE::TileOp xilinx::AIE::LockOp::getTileOp() {
+  return cast<xilinx::AIE::TileOp>(tile().getDefiningOp());
+}
+
 LogicalResult xilinx::AIE::UseLockOp::verify() {
   return HasSomeParent<xilinx::AIE::CoreOp, xilinx::AIE::MemOp,
                        xilinx::AIE::ShimDMAOp>::verifyTrait(*this);

@@ -200,12 +200,20 @@ struct AIECreateLocksPass : public AIECreateLocksBase<AIECreateLocksPass> {
 
       TileOp tile = dyn_cast<TileOp>(tileOp);
       int lockID = getLockID(locks, tileOp);
+      // int tileCol = tile.colIndex();
+      // int tileRow = tile.rowIndex();
+
+      // // use tile row, col and lockID to create a unique lock name
+      // std::string name = "lock" + std::to_string(tileRow) + std::to_string(tileCol) + std::to_string(lockID);
       assert(lockID >= 0 && "No more locks to allocate!");
       LLVM_DEBUG(llvm::dbgs() << "Shared tile \n"; tileOp->print(llvm::dbgs()));
       LLVM_DEBUG(llvm::dbgs() << " LockID: " << lockID << '\n');
+
       builder.setInsertionPointAfter(tileOp);
       LockOp lock =
           builder.create<LockOp>(builder.getUnknownLoc(), tile, lockID);
+      // %1 = aie.lock(%0, 15) {sym_name = "lock_15"}
+      // lock->setAttr(SymbolTable::getSymbolAttrName(), builder.getStringAttr(name));
 
       lockChains[std::make_pair(release, acquire)] = std::make_pair(lock, 1);
 

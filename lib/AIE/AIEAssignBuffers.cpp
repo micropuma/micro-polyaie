@@ -48,6 +48,8 @@ struct AIEAssignBufferAddressesPass
       if (!buffer.hasName()) {
         std::string name = "_anonymous";
         name += std::to_string(counter++);
+
+        // %2 = aie.buffer(%0) {sym_name = "buf0"} : memref<2x2xf32>
         buffer->setAttr(SymbolTable::getSymbolAttrName(),
                         builder.getStringAttr(name));
       }

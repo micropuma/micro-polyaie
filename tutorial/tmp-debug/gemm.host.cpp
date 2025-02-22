@@ -45,7 +45,7 @@ void gemm(
   int fd = open("/dev/mem", O_RDWR | O_SYNC);
   assert(fd != -1 && "memory is not available");
 
-  mlir_aie_clear_tile_memory(_xaie, 25, 2);
+  mlir_aie_clear_tile_memory(_xaie, 24, 2);
 
   unsigned bufIdx;
 
@@ -86,7 +86,7 @@ void gemm(
 
 
   while(!kernel_complete()) {
-    if (mlir_aie_acquire_lock(_xaie, 25, 2, 15, 1, 0))
+    if (mlir_aie_acquire_lock(_xaie, 24, 2, 15, 1, 0))
       results[0] = true;
   }
 

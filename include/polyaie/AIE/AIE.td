@@ -932,17 +932,42 @@ def AIE_LockOp: AIE_Op<"lock", []>, Results<(outs Index)> {
     Example:
     ```
       %tile33 = AIE.tile(3, 3)
-      %lck = AIE.lock(%tile33, 7)
+      %lck = AIE.lock(%tile33, 7) 
     ```
     This operation represents a lock that lives in the Memory module of Tile(3, 3) with a lockID of 7
+    ```
+      %tile33 = AIE.tile(3, 3)
+      %lck = AIE.lock(%tile33, 7) { sym_name = "lock7" } 
+    ```
+    This operation has sym_name attribute set to "lock7"
   }];
   let arguments = (
     ins Index:$tile,
         Confined<I32Attr, [IntMinValue<0>, IntMaxValue<15>]>:$lockID
   );
   let assemblyFormat = [{ `(` $tile `,` $lockID `)` attr-dict }];
+
+  // add sym_name attribute supports
   let extraClassDeclaration = [{
     int getLockID() { return lockID(); }
+
+    bool hasName() {
+      if(auto attr = getOperation()->getAttrOfType<StringAttr>(SymbolTable::getSymbolAttrName())) {
+        return true;
+      } else {
+        return false;
+      }
+    }
+    StringAttr name() {
+      if(auto attr = getOperation()->getAttrOfType<StringAttr>(SymbolTable::getSymbolAttrName())) {
+        return attr;
+      } else {
+        emitOpError("does not have '") << SymbolTable::getSymbolAttrName() <<
+          "' attribute specified";
+      }
+      llvm_unreachable("unreachable");
+    }
+    TileOp getTileOp();
   }];
   let builders = [
     OpBuilder<(ins "Value":$tile, "int":$lockID), [{
