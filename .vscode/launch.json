@@ -30,6 +30,35 @@
                     "ignoreFailures": true
                 }
             ]
-        }
+        },
+        {
+            "name": "Debug polyaie-opt",
+            "type": "cppdbg",
+            "request": "launch",
+            "program": "/home/douliyang/large/mlir-workspace/micro-polyaie/build/bin/polyaie-opt",
+            "args": [
+              "/home/douliyang/large/mlir-workspace/micro-polyaie/tutorial/gemm-simple.mlir",
+              "-polyaie-pipeline=top-func-name=gemm return-all-arg=false tile-size=32 vec-size=1 algorithm=simulated-annealing enable-create-interface=false enable-link-extern-kernel=false object-file=kernel.o gen-extern-kernel=false",
+              "--mlir-print-ir-after-all",
+              "-debug-only=dialect-conversion",
+            ],
+            "stopAtEntry": false,
+            "cwd": "${workspaceFolder}",
+            "environment": [
+              {
+                "name": "VITIS_DIR",
+                "value": "/tools/Xilinx/Vitis/2020.1"
+              }
+            ],
+            "externalConsole": false,
+            "MIMode": "gdb",
+            "setupCommands": [
+              {
+                "description": "Enable pretty-printing for gdb",
+                "text": "-enable-pretty-printing",
+                "ignoreFailures": true
+              }
+            ],
+          }
     ]
 }
