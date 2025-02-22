@@ -10,12 +10,13 @@ VEC_SIZE="1"
 ALGORITHM="simulated-annealing"
 CREATE_INTERF="false"
 
-EXTERN_KERNEL="true"
+EXTERN_KERNEL="false"
 OBJECT_FILE="kernel.o"
 GEN_EXTERN_KERNEL="false"
 VITIS_DIR=/tools/Xilinx/Vitis/2020.1
 
 POLYAIE_OPT=$PWD/../build/bin/polyaie-opt
+POLYAIE_TRANSLATE=$PWD/../build/bin/polyaie-translate
 
 # Get the absolute path of the current directory.
 DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" &> /dev/null && pwd )"
@@ -38,12 +39,7 @@ PIPELINE_OPTS+="enable-link-extern-kernel=${EXTERN_KERNEL} "
 PIPELINE_OPTS+="object-file=${OBJECT_FILE} "
 PIPELINE_OPTS+="gen-extern-kernel=${GEN_EXTERN_KERNEL}"
 
-${POLYAIE_OPT} ${DIR}/gemm-simple.mlir \
-  -polyaie-pipeline="${PIPELINE_OPTS}" \
-  --mlir-print-ir-after-all \
-  -debug-only=dialect-conversion \
-  -o ${TMP_DEBUG_DIR}/gemm.polyaie.mlir \
-  2>&1 | tee ${TMP_DEBUG_DIR}/gemm.polyaie-debug.log
+
 
 ${POLYAIE_OPT} ${DIR}/gemm.mlir \
   -polyaie-pipeline="${PIPELINE_OPTS}" \
@@ -52,9 +48,28 @@ ${POLYAIE_OPT} ${DIR}/gemm.mlir \
   -o ${TMP_DIR}/gemm.polyaie.mlir \
   2>&1 | tee ${TMP_DIR}/gemm.polyaie-debug.log
 
+${POLYAIE_TRANSLATE} ${TMP_DIR}/gemm.polyaie.mlir \
+  -export-host-kernel \
+  -dry-run-host-kernel=${DRY_RUN} \
+  -debug-tile=${DEBUG_TILE} \
+  > ${TMP_DIR}/gemm.host.cpp
+
 ${POLYAIE_OPT} -polyaie-codegen-cleanup \
   ${TMP_DIR}/gemm.polyaie.mlir \
   > ${TMP_DIR}/gemm.polyaie.mliraie.mlir
+
+${POLYAIE_OPT} ${DIR}/gemm-simple.mlir \
+  -polyaie-pipeline="${PIPELINE_OPTS}" \
+  --mlir-print-ir-after-all \
+  -debug-only=dialect-conversion \
+  -o ${TMP_DEBUG_DIR}/gemm.polyaie.mlir \
+  2>&1 | tee ${TMP_DEBUG_DIR}/gemm.polyaie-debug.log
+
+${POLYAIE_TRANSLATE} ${TMP_DEBUG_DIR}/gemm.polyaie.mlir \
+  -export-host-kernel \
+  -dry-run-host-kernel=${DRY_RUN} \
+  -debug-tile=${DEBUG_TILE} \
+  > ${TMP_DEBUG_DIR}/gemm.host.cpp
 
 ${POLYAIE_OPT} -polyaie-codegen-cleanup \
   ${TMP_DEBUG_DIR}/gemm.polyaie.mlir \

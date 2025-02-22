@@ -71,12 +71,14 @@ void polyaie::registerPolyAIEPassPipeline() {
         pm.addPass(polyaie::createMaterializeBroadcastPass());
         pm.addPass(polyaie::createFlowPacketToCircuitPass());
 
-        // Materialize tokens with locks, route, and enable double buffering.
+        // Materialize tokens with locks, route.
         pm.addPass(xilinx::AIE::createAIECreateLocksPass());
         pm.addPass(xilinx::AIE::createAIERoutePacketFlowsPass());
         pm.addPass(xilinx::AIE::createAIERouteFlowsPass());
         // pm.addPass(xilinx::AIE::createAIEPathfinderPass());
-        pm.addPass(polyaie::createDoubleBufferPass());
+
+        // 暂时关闭双buffer机制
+        // pm.addPass(polyaie::createDoubleBufferPass());
         pm.addPass(polyaie::createPostprocessPass());
       });
 }
