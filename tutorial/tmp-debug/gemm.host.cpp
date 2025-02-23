@@ -23,11 +23,25 @@
 
 #include "aie_inc.cpp"
 
-void gemm(
-  float arg0[2][2],
-  float arg1[2][2],
-  float arg2[2][2],
-  unsigned iter_num = 1) {
+int main() {
+  float arg0[2][2];
+  for (int64_t idx0 = 0; idx0 < 2; ++idx0) {
+    for (int64_t idx1 = 0; idx1 < 2; ++idx1) {
+      arg0[idx0][idx1] = 0.0;
+    }
+  }
+  float arg1[2][2];
+  for (int64_t idx0 = 0; idx0 < 2; ++idx0) {
+    for (int64_t idx1 = 0; idx1 < 2; ++idx1) {
+      arg1[idx0][idx1] = 0.0;
+    }
+  }
+  float arg2[2][2];
+  for (int64_t idx0 = 0; idx0 < 2; ++idx0) {
+    for (int64_t idx1 = 0; idx1 < 2; ++idx1) {
+      arg2[idx0][idx1] = 0.0;
+    }
+  }
 
   printf("Configure AIE array...\n");
 
@@ -65,31 +79,11 @@ void gemm(
       mlir_aie_write_buffer_buf3(_xaie, bufIdx++, arg0[idx0][idx1]);
 
 
-  bool results[1];
 
-  for (auto &result : results)
-    result = false;
-
-  auto kernel_complete = [&]() {
-    bool flag = true;
-    for (auto result : results) {
-      flag &= result;
-      // printf("%d ", result);
-    }
-    // printf("\n");
-    return flag;
-  };
-
-
-  printf("Start cores...\n");
-  mlir_aie_start_cores(_xaie);
-
-
-  while(!kernel_complete()) {
-    if (mlir_aie_acquire_lock(_xaie, 24, 2, 15, 1, 0))
-      results[0] = true;
-  }
-
+  if (mlir_aie_acquire_lock_24_2_15(_xaie, 1, 1000) == XAIE_OK)
+    printf("Acquired lock0 (1) in tile (1,4). Done.");
+  eles
+    printf("Timed out (1000) while trying to acquire lock14_0 (1).");
   bufIdx = 0;
   for (int64_t idx0 = 0; idx0 < 2; ++idx0)
     for (int64_t idx1 = 0; idx1 < 2; ++idx1)

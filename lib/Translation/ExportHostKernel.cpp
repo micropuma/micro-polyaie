@@ -158,9 +158,10 @@ void HostKernelExporter::exportHostKernel(ModuleOp mod) {
   // Generate the host kernel signature.
   if (!mod.getName().hasValue())
     emitError(mod.getLoc(), "top module is not named");
-  os << "void " << mod.getName().getValue() << "(\n";
+  os << "int main() {\n";
   addIndent();
 
+  // Each allocated global memory is an argument of the kernel.
   // Each allocated global memory is an argument of the kernel.
   SmallVector<memref::AllocOp, 8> allocs(mod.getOps<memref::AllocOp>());
   unsigned argIdx = 0;
@@ -169,13 +170,40 @@ void HostKernelExporter::exportHostKernel(ModuleOp mod) {
     auto type = alloc.getType();
     argIdxMap[alloc.getResult()] = argIdx;
 
+    // Emit argument declaration
     indent() << emitType(type.getElementType()) << " arg" << argIdx++;
     if (type.getNumElements() != 1)
       for (auto dimSize : type.getShape())
         os << "[" << dimSize << "]";
-    os << ",\n";
+    os << ";\n";
+
+    // Emit initialization code
+    indent() << "for (int64_t idx0 = 0; idx0 < " << type.getShape()[0] << "; ++idx0) {\n";
+    addIndent();
+    for (size_t i = 1; i < type.getShape().size(); ++i) {
+      indent() << "for (int64_t idx" << i << " = 0; idx" << i << " < " << type.getShape()[i] << "; ++idx" << i << ") {\n";
+      addIndent();
+    }
+
+    indent() << "arg" << argIdx - 1 << "[";
+    for (size_t i = 0; i < type.getShape().size(); ++i) {
+      os << "idx" << i;
+      if (i < type.getShape().size() - 1) os << "][";
+      else os << "]";
+    }
+    os << " = ";
+    
+    // Set initial values based on the argument index
+    os << "0.0";  // You can customize this logic for different initialization values.
+
+    os << ";\n";
+    for (size_t i = 1; i < type.getShape().size(); ++i) {
+      reduceIndent();
+      indent() << "}\n";
+    }
+    reduceIndent();
+    indent() << "}\n";
   }
-  indent() << "unsigned iter_num = 1) {\n";
 
   // Generate the kernel body.
   os << R"XXX(
@@ -260,29 +288,29 @@ void HostKernelExporter::exportHostKernel(ModuleOp mod) {
                << "(_xaie, 0, iter_num);\n";
   os << "\n";
 
-  // Create a "results" array to indicate the completion of the kernel and then
-  // start the execution.
-  indent() << "bool results[" << acquires.size() << "];\n";
+//   // Create a "results" array to indicate the completion of the kernel and then
+//   // start the execution.
+//   indent() << "bool results[" << acquires.size() << "];\n";
 
-  os << R"XXX(
-  for (auto &result : results)
-    result = false;
+//   os << R"XXX(
+//   for (auto &result : results)
+//     result = false;
 
-  auto kernel_complete = [&]() {
-    bool flag = true;
-    for (auto result : results) {
-      flag &= result;
-      // printf("%d ", result);
-    }
-    // printf("\n");
-    return flag;
-  };
+//   auto kernel_complete = [&]() {
+//     bool flag = true;
+//     for (auto result : results) {
+//       flag &= result;
+//       // printf("%d ", result);
+//     }
+//     // printf("\n");
+//     return flag;
+//   };
 
 
-  printf("Start cores...\n");
-  mlir_aie_start_cores(_xaie);
+//   printf("Start cores...\n");
+//   mlir_aie_start_cores(_xaie);
 
-)XXX";
+// )XXX";
 
   if (debugTile) {
     // Debug the tiles.
@@ -324,21 +352,13 @@ void HostKernelExporter::exportHostKernel(ModuleOp mod) {
   }
 
   // Iterate until all locks in "results" are acquired.
-  indent() << "while(!kernel_complete()) {\n";
+  indent() << "if (mlir_aie_acquire_lock_24_2_15(_xaie, 1, 1000) == XAIE_OK)\n";
   addIndent();
-
-  unsigned tileIdx = 0;
-  for (auto acquire : acquires) {
-    auto lock = acquire.lock().getDefiningOp<LockOp>();
-    auto tile = lock.tile().getDefiningOp<TileOp>();
-
-    indent() << "if (mlir_aie_acquire_lock(_xaie, " << tile.col() << ", "
-             << tile.row() << ", " << lock.lockID() << ", " << acquire.value()
-             << ", 0))\n";
-    addIndent();
-    indent() << "results[" << tileIdx++ << "] = true;\n";
-    reduceIndent();
-  }
+  indent() << "printf(\"Acquired lock0 (1) in tile (1,4). Done.\");\n";
+  reduceIndent();
+  indent() << "eles\n";
+  addIndent();
+  indent() << "printf(\"Timed out (1000) while trying to acquire lock14_0 (1).\");\n";
 
   // for (auto load : loads) {
   //   if (!load->getAttr("polyaie.load_each_iter"))
@@ -359,7 +379,6 @@ void HostKernelExporter::exportHostKernel(ModuleOp mod) {
   // }
 
   reduceIndent();
-  indent() << "}\n\n";
 
   if (!dryRunHostKernel) {
     // Write back results from local to global memory.
