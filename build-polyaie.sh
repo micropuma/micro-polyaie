@@ -1,5 +1,7 @@
 #!/bin/bash
 
+export PATH=/usr/bin/gcc-11:/usr/bin/g++-11:/usr/bin/ld.lld-14:$PATH
+
 if [ -d "build" ]; then
 	echo "Removing existing build directory..."
 	rm -rf build
