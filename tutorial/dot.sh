@@ -20,8 +20,6 @@ POLYAIE_OPT=$PWD/../build/bin/polyaie-opt
 # Get the absolute path of the current directory.
 DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" &> /dev/null && pwd )"
 TMP_DIR=${DIR}/tmp
-rm -rf ${TMP_DIR}
-mkdir -p ${TMP_DIR}
 
 # Run polyaie to generate the AIE IR of GEMM.
 PIPELINE_OPTS="top-func-name=gemm "
