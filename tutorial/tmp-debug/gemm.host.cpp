@@ -82,7 +82,7 @@ int main() {
 
   if (mlir_aie_acquire_lock_24_2_15(_xaie, 1, 1000) == XAIE_OK)
     printf("Acquired lock0 (1) in tile (1,4). Done.");
-  eles
+  else
     printf("Timed out (1000) while trying to acquire lock14_0 (1).");
   bufIdx = 0;
   for (int64_t idx0 = 0; idx0 < 2; ++idx0)

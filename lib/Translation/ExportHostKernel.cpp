@@ -356,7 +356,7 @@ void HostKernelExporter::exportHostKernel(ModuleOp mod) {
   addIndent();
   indent() << "printf(\"Acquired lock0 (1) in tile (1,4). Done.\");\n";
   reduceIndent();
-  indent() << "eles\n";
+  indent() << "else\n";
   addIndent();
   indent() << "printf(\"Timed out (1000) while trying to acquire lock14_0 (1).\");\n";
 
