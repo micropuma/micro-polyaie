@@ -24,21 +24,21 @@
 #include "aie_inc.cpp"
 
 int main() {
-  float arg0[2][2];
-  for (int64_t idx0 = 0; idx0 < 2; ++idx0) {
-    for (int64_t idx1 = 0; idx1 < 2; ++idx1) {
+  float arg0[16][16];
+  for (int64_t idx0 = 0; idx0 < 16; ++idx0) {
+    for (int64_t idx1 = 0; idx1 < 16; ++idx1) {
       arg0[idx0][idx1] = 0.0;
     }
   }
-  float arg1[2][2];
-  for (int64_t idx0 = 0; idx0 < 2; ++idx0) {
-    for (int64_t idx1 = 0; idx1 < 2; ++idx1) {
+  float arg1[16][16];
+  for (int64_t idx0 = 0; idx0 < 16; ++idx0) {
+    for (int64_t idx1 = 0; idx1 < 16; ++idx1) {
       arg1[idx0][idx1] = 0.0;
     }
   }
-  float arg2[2][2];
-  for (int64_t idx0 = 0; idx0 < 2; ++idx0) {
-    for (int64_t idx1 = 0; idx1 < 2; ++idx1) {
+  float arg2[16][16];
+  for (int64_t idx0 = 0; idx0 < 16; ++idx0) {
+    for (int64_t idx1 = 0; idx1 < 16; ++idx1) {
       arg2[idx0][idx1] = 0.0;
     }
   }
@@ -64,18 +64,18 @@ int main() {
   unsigned bufIdx;
 
   bufIdx = 0;
-  for (int64_t idx0 = 0; idx0 < 2; ++idx0)
-    for (int64_t idx1 = 0; idx1 < 2; ++idx1)
+  for (int64_t idx0 = 0; idx0 < 16; ++idx0)
+    for (int64_t idx1 = 0; idx1 < 16; ++idx1)
       mlir_aie_write_buffer_buf1(_xaie, bufIdx++, arg1[idx0][idx1]);
 
   bufIdx = 0;
-  for (int64_t idx0 = 0; idx0 < 2; ++idx0)
-    for (int64_t idx1 = 0; idx1 < 2; ++idx1)
+  for (int64_t idx0 = 0; idx0 < 16; ++idx0)
+    for (int64_t idx1 = 0; idx1 < 16; ++idx1)
       mlir_aie_write_buffer_buf2(_xaie, bufIdx++, arg2[idx0][idx1]);
 
   bufIdx = 0;
-  for (int64_t idx0 = 0; idx0 < 2; ++idx0)
-    for (int64_t idx1 = 0; idx1 < 2; ++idx1)
+  for (int64_t idx0 = 0; idx0 < 16; ++idx0)
+    for (int64_t idx1 = 0; idx1 < 16; ++idx1)
       mlir_aie_write_buffer_buf3(_xaie, bufIdx++, arg0[idx0][idx1]);
 
 
@@ -85,8 +85,8 @@ int main() {
   else
     printf("Timed out (1000) while trying to acquire lock14_0 (1).");
   bufIdx = 0;
-  for (int64_t idx0 = 0; idx0 < 2; ++idx0)
-    for (int64_t idx1 = 0; idx1 < 2; ++idx1)
+  for (int64_t idx0 = 0; idx0 < 16; ++idx0)
+    for (int64_t idx1 = 0; idx1 < 16; ++idx1)
       arg0[idx0][idx1] = mlir_aie_read_buffer_buf0(_xaie, bufIdx++);
 
 

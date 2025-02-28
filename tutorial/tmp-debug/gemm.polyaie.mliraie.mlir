@@ -1,6 +1,6 @@
 module @gemm {
-  %0 = aie.tile(25, 2) {polyaie.leaf}
-  %1 = aie.lock(%0, 15) {sym_name = "lock_25_2_15"}
+  %0 = aie.tile(24, 2) {polyaie.leaf}
+  %1 = aie.lock(%0, 15) {sym_name = "lock_24_2_15"}
   %2 = aie.buffer(%0) {sym_name = "buf0"} : memref<2x2xf32>
   %3 = aie.buffer(%0) {sym_name = "buf1"} : memref<2x2xf32>
   %4 = aie.buffer(%0) {sym_name = "buf2"} : memref<2x2xf32>

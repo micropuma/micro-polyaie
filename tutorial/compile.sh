@@ -28,6 +28,10 @@ TMP_DIR=${DIR}/tmp
 rm -rf ${TMP_DIR}
 mkdir -p ${TMP_DIR}
 
+TMP_8x8DIR=${DIR}/tmp8x8
+rm -rf ${TMP_8x8DIR}
+mkdir -p ${TMP_8x8DIR}
+
 # Run polyaie to generate the AIE IR of GEMM.
 PIPELINE_OPTS="top-func-name=gemm "
 PIPELINE_OPTS+="return-all-arg=${RETURN_ALL_ARG} "
@@ -39,6 +43,7 @@ PIPELINE_OPTS+="enable-link-extern-kernel=${EXTERN_KERNEL} "
 PIPELINE_OPTS+="object-file=${OBJECT_FILE} "
 PIPELINE_OPTS+="gen-extern-kernel=${GEN_EXTERN_KERNEL}"
 
+# ===========================================
 ${POLYAIE_OPT} ${DIR}/gemm.mlir \
   -polyaie-pipeline="${PIPELINE_OPTS}" \
   --mlir-print-ir-after-all \
@@ -56,6 +61,7 @@ ${POLYAIE_OPT} -polyaie-codegen-cleanup \
   ${TMP_DIR}/gemm.polyaie.mlir \
   > ${TMP_DIR}/gemm.polyaie.mliraie.mlir
 
+# ===========================================
 # Run polyaie to generate the AIE IR of GEMM.
 ${POLYAIE_OPT} ${DIR}/gemm-simple.mlir \
   -polyaie-pipeline="${PIPELINE_OPTS}" \
@@ -75,3 +81,23 @@ ${POLYAIE_TRANSLATE} ${TMP_DEBUG_DIR}/gemm.polyaie.mlir \
 ${POLYAIE_OPT} -polyaie-codegen-cleanup \
   ${TMP_DEBUG_DIR}/gemm.polyaie.mlir \
   > ${TMP_DEBUG_DIR}/gemm.polyaie.mliraie.mlir
+
+# ===========================================
+${POLYAIE_OPT} ${DIR}/gemm-8x8.mlir \
+  -polyaie-pipeline="${PIPELINE_OPTS}" \
+  --mlir-print-ir-after-all \
+  -debug-only=dialect-conversion \
+  -o ${TMP_8x8DIR}/gemm.polyaie.mlir \
+  2>&1 | tee ${TMP_8x8DIR}/gemm.polyaie-debug.log
+
+# generate host code
+${POLYAIE_TRANSLATE} ${TMP_8x8DIR}/gemm.polyaie.mlir \
+  -export-host-kernel \
+  -dry-run-host-kernel=${DRY_RUN} \
+  -debug-tile=${DEBUG_TILE} \
+  > ${TMP_8x8DIR}/gemm.host.cpp
+
+# cleanup runtime.hostdma
+${POLYAIE_OPT} -polyaie-codegen-cleanup \
+  ${TMP_8x8DIR}/gemm.polyaie.mlir \
+  > ${TMP_8x8DIR}/gemm.polyaie.mliraie.mlir

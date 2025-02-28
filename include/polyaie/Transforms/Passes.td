@@ -17,7 +17,7 @@ def Preprocess : Pass<"polyaie-preprocess", "ModuleOp"> {
   let options = [
     Option<"topFuncName", "top-func-name", "std::string",
            /*default=*/"\"main\"", "Specify the top function of the program">,
-    Option<"tileSize", "tile-size", "int64_t", /*default=*/"32",
+    Option<"tileSize", "tile-size", "int64_t", /*default=*/"2",
            "Specify the size of loop tiling">
   ];
 }

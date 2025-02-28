@@ -292,25 +292,11 @@ void HostKernelExporter::exportHostKernel(ModuleOp mod) {
 //   // start the execution.
 //   indent() << "bool results[" << acquires.size() << "];\n";
 
-//   os << R"XXX(
-//   for (auto &result : results)
-//     result = false;
+  os << R"XXX(
+  printf("Start cores...\n");
+  mlir_aie_start_cores(_xaie);
 
-//   auto kernel_complete = [&]() {
-//     bool flag = true;
-//     for (auto result : results) {
-//       flag &= result;
-//       // printf("%d ", result);
-//     }
-//     // printf("\n");
-//     return flag;
-//   };
-
-
-//   printf("Start cores...\n");
-//   mlir_aie_start_cores(_xaie);
-
-// )XXX";
+)XXX";
 
   if (debugTile) {
     // Debug the tiles.
@@ -401,6 +387,7 @@ void HostKernelExporter::exportHostKernel(ModuleOp mod) {
   mlir_aie_deinit_libxaie(_xaie);
 
   printf("Complete compute.\n");
+  return 1;
 )XXX";
 
   os << "}\n";
