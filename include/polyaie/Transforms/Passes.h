@@ -110,6 +110,7 @@ std::unique_ptr<Pass> createFlowPacketToCircuitPass();
 std::unique_ptr<Pass> createDoubleBufferPass();
 std::unique_ptr<Pass> createPostprocessPass();
 std::unique_ptr<Pass> createCodeGenCleanupPass();
+std::unique_ptr<Pass> createReorderOperationPass();
 
 void registerPolyAIEPassPipeline();
 void registerPolyAIEPasses();

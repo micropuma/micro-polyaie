@@ -1,5 +1,5 @@
 module @gemm {
-  %0 = aie.tile(24, 3)
+  %0 = aie.tile(25, 4)
   %1 = aie.buffer(%0) {sym_name = "buf0"} : memref<2x2xf32>
   %2 = aie.buffer(%0) {sym_name = "buf1"} : memref<2x2xf32>
   %3 = aie.buffer(%0) {sym_name = "buf2"} : memref<2x2xf32>
@@ -23,8 +23,8 @@ module @gemm {
     aie.use_lock(%8, Release, 1)
     aie.end
   }
-  %6 = aie.tile(24, 2) {polyaie.leaf}
-  %7 = aie.lock(%6, 15) {sym_name = "lock_24_2_15"}
+  %6 = aie.tile(25, 3) {polyaie.leaf}
+  %7 = aie.lock(%6, 15) {sym_name = "lock_25_3_15"}
   %8 = aie.lock(%6, 0)
   %9 = aie.buffer(%6) {sym_name = "buf4"} : memref<2x2xf32>
   %10 = aie.buffer(%6) {sym_name = "buf5"} : memref<2x2xf32>
@@ -49,7 +49,7 @@ module @gemm {
     aie.use_lock(%7, Release, 1) {polyaie.runtime}
     aie.end
   }
-  %13 = aie.tile(25, 3)
+  %13 = aie.tile(24, 2)
   %14 = aie.buffer(%13) {sym_name = "buf7"} : memref<2x2xf32>
   %15 = aie.buffer(%13) {sym_name = "buf8"} : memref<2x2xf32>
   %16 = aie.buffer(%13) {sym_name = "buf9"} : memref<2x2xf32>
@@ -73,8 +73,8 @@ module @gemm {
     aie.use_lock(%21, Release, 1)
     aie.end
   }
-  %19 = aie.tile(25, 4) {polyaie.leaf}
-  %20 = aie.lock(%19, 15) {sym_name = "lock_25_4_15"}
+  %19 = aie.tile(24, 3) {polyaie.leaf}
+  %20 = aie.lock(%19, 15) {sym_name = "lock_24_3_15"}
   %21 = aie.lock(%19, 0)
   %22 = aie.buffer(%19) {sym_name = "buf11"} : memref<2x2xf32>
   %23 = aie.buffer(%19) {sym_name = "buf12"} : memref<2x2xf32>
@@ -99,8 +99,8 @@ module @gemm {
     aie.use_lock(%20, Release, 1) {polyaie.runtime}
     aie.end
   }
-  %26 = aie.tile(23, 4)
-  %27 = aie.buffer(%32) {sym_name = "buf14"} : memref<2x2xf32>
+  %26 = aie.tile(26, 3)
+  %27 = aie.buffer(%26) {sym_name = "buf14"} : memref<2x2xf32>
   %28 = aie.buffer(%26) {sym_name = "buf15"} : memref<2x2xf32>
   %29 = aie.buffer(%26) {sym_name = "buf16"} : memref<2x2xf32>
   %30 = aie.buffer(%26) {sym_name = "buf17"} : memref<2x2xf32>
@@ -123,8 +123,8 @@ module @gemm {
     aie.use_lock(%34, Release, 1)
     aie.end
   }
-  %32 = aie.tile(24, 4) {polyaie.leaf}
-  %33 = aie.lock(%32, 15) {sym_name = "lock_24_4_15"}
+  %32 = aie.tile(26, 4) {polyaie.leaf}
+  %33 = aie.lock(%32, 15) {sym_name = "lock_26_4_15"}
   %34 = aie.lock(%32, 0)
   %35 = aie.buffer(%32) {sym_name = "buf18"} : memref<2x2xf32>
   %36 = aie.buffer(%32) {sym_name = "buf19"} : memref<2x2xf32>
@@ -149,7 +149,7 @@ module @gemm {
     aie.use_lock(%33, Release, 1) {polyaie.runtime}
     aie.end
   }
-  %39 = aie.tile(26, 2)
+  %39 = aie.tile(23, 3)
   %40 = aie.buffer(%39) {sym_name = "buf21"} : memref<2x2xf32>
   %41 = aie.buffer(%39) {sym_name = "buf22"} : memref<2x2xf32>
   %42 = aie.buffer(%39) {sym_name = "buf23"} : memref<2x2xf32>
@@ -173,8 +173,8 @@ module @gemm {
     aie.use_lock(%47, Release, 1)
     aie.end
   }
-  %45 = aie.tile(26, 3) {polyaie.leaf}
-  %46 = aie.lock(%45, 15) {sym_name = "lock_26_3_15"}
+  %45 = aie.tile(23, 2) {polyaie.leaf}
+  %46 = aie.lock(%45, 15) {sym_name = "lock_23_2_15"}
   %47 = aie.lock(%45, 0)
   %48 = aie.buffer(%45) {sym_name = "buf25"} : memref<2x2xf32>
   %49 = aie.buffer(%45) {sym_name = "buf26"} : memref<2x2xf32>

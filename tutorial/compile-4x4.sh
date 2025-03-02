@@ -53,3 +53,7 @@ ${POLYAIE_TRANSLATE} ${TMP_4x4DIR}/gemm.polyaie.mlir \
 ${POLYAIE_OPT} -polyaie-codegen-cleanup \
   ${TMP_4x4DIR}/gemm.polyaie.mlir \
   > ${TMP_4x4DIR}/gemm.polyaie.mliraie.mlir
+
+${POLYAIE_OPT} -polyaie-reorder-operation \
+  ${TMP_4x4DIR}/gemm.polyaie.mliraie.mlir \
+  > ${TMP_4x4DIR}/gemm.polyaie.final.mlir

@@ -167,8 +167,6 @@ def PrintDataflow : Pass<"polyaie-print-dataflow", "ModuleOp"> {
   let constructor = "mlir::polyaie::createPrintDataflowPass()";
 }
 
-
-
 def DataflowToAIE : Pass<"polyaie-dataflow-to-aie", "ModuleOp"> {
   let summary = "Convert to the logical-level IR of AIE";
   let description = [{
@@ -229,6 +227,14 @@ def CodeGenCleanup : Pass<"polyaie-codegen-cleanup", "ModuleOp"> {
     Clean up runtime operations and contents of private functions.
   }];
   let constructor = "mlir::polyaie::createCodeGenCleanupPass()";
+}
+
+def ReorderOperation : Pass<"polyaie-reorder-operation", "ModuleOp"> {
+  let summary = "Reorder operations based on the dataflow";
+  let description = [{
+    Rorder operations, to make aie.tile the first, aie.lock and aie.buffer come next, finally is aie.core.
+  }];
+  let constructor = "mlir::polyaie::createReorderOperationPass()";
 }
 
 #endif // POLYAIE_TRANSFORMS_PASSES_TD

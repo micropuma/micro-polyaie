@@ -22,6 +22,7 @@ add_mlir_library(MLIRPolyAIEPasses
   DoubleBuffer.cpp
   Postprocess.cpp
   CodeGenCleanup.cpp
+  ReorderOperations.cpp
   Passes.cpp
 
   DEPENDS

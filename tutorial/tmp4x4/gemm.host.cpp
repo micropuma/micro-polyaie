@@ -59,14 +59,14 @@ int main() {
   int fd = open("/dev/mem", O_RDWR | O_SYNC);
   assert(fd != -1 && "memory is not available");
 
-  mlir_aie_clear_tile_memory(_xaie, 24, 3);
-  mlir_aie_clear_tile_memory(_xaie, 24, 2);
-  mlir_aie_clear_tile_memory(_xaie, 25, 3);
   mlir_aie_clear_tile_memory(_xaie, 25, 4);
-  mlir_aie_clear_tile_memory(_xaie, 23, 4);
-  mlir_aie_clear_tile_memory(_xaie, 24, 4);
-  mlir_aie_clear_tile_memory(_xaie, 26, 2);
+  mlir_aie_clear_tile_memory(_xaie, 25, 3);
+  mlir_aie_clear_tile_memory(_xaie, 24, 2);
+  mlir_aie_clear_tile_memory(_xaie, 24, 3);
   mlir_aie_clear_tile_memory(_xaie, 26, 3);
+  mlir_aie_clear_tile_memory(_xaie, 26, 4);
+  mlir_aie_clear_tile_memory(_xaie, 23, 3);
+  mlir_aie_clear_tile_memory(_xaie, 23, 2);
 
   unsigned bufIdx;
 
@@ -172,6 +172,10 @@ int main() {
 
 
 
+  printf("Start cores...\n");
+  mlir_aie_start_cores(_xaie);
+
+
   if (mlir_aie_acquire_lock_24_2_15(_xaie, 1, 1000) == XAIE_OK)
     printf("Acquired lock0 (1) in tile (1,4). Done.");
   else
@@ -201,4 +205,5 @@ int main() {
   mlir_aie_deinit_libxaie(_xaie);
 
   printf("Complete compute.\n");
+  return 1;
 }
