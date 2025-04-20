@@ -6,6 +6,8 @@ set -e
 # 进入 LLVM 源码目录
 cd llvm
 
+export PATH=/usr/bin/gcc-11:/usr/bin/g++-11:/usr/bin/ld.lld-14:$PATH
+
 # 如果 build 目录存在，删除它
 if [ -d "build" ]; then
     echo "Removing existing build directory..."

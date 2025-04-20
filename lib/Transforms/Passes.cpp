@@ -48,7 +48,10 @@ void polyaie::registerPolyAIEPassPipeline() {
         
         if (opts.superVectorizeSize != 1) {
           pm.addPass(mlir::createSuperVectorizePass({opts.superVectorizeSize}));
-          pm.addPass(xilinx::AIE::createAIEVectorOptPass());
+          // don't know why this pass failed
+          // pm.addPass(xilinx::AIE::createAIEVectorOptPass());
+
+          // now only keep AIEVec dialect vectorization pass
           pm.addPass(xilinx::aievec::createAIEVectorizePass());
         }
 

@@ -59,14 +59,14 @@ int main() {
   int fd = open("/dev/mem", O_RDWR | O_SYNC);
   assert(fd != -1 && "memory is not available");
 
-  mlir_aie_clear_tile_memory(_xaie, 25, 4);
-  mlir_aie_clear_tile_memory(_xaie, 25, 3);
-  mlir_aie_clear_tile_memory(_xaie, 24, 2);
   mlir_aie_clear_tile_memory(_xaie, 24, 3);
+  mlir_aie_clear_tile_memory(_xaie, 25, 3);
   mlir_aie_clear_tile_memory(_xaie, 26, 3);
+  mlir_aie_clear_tile_memory(_xaie, 26, 2);
   mlir_aie_clear_tile_memory(_xaie, 26, 4);
-  mlir_aie_clear_tile_memory(_xaie, 23, 3);
-  mlir_aie_clear_tile_memory(_xaie, 23, 2);
+  mlir_aie_clear_tile_memory(_xaie, 25, 4);
+  mlir_aie_clear_tile_memory(_xaie, 24, 4);
+  mlir_aie_clear_tile_memory(_xaie, 23, 4);
 
   unsigned bufIdx;
 

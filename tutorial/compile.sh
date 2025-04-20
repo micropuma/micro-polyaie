@@ -61,6 +61,10 @@ ${POLYAIE_OPT} -polyaie-codegen-cleanup \
   ${TMP_DIR}/gemm.polyaie.mlir \
   > ${TMP_DIR}/gemm.polyaie.mliraie.mlir
 
+${POLYAIE_OPT} -polyaie-reorder-operation \
+  ${TMP_DIR}/gemm.polyaie.mliraie.mlir \
+  > ${TMP_DIR}/gemm.polyaie.final.mlir
+
 # ===========================================
 # Run polyaie to generate the AIE IR of GEMM.
 ${POLYAIE_OPT} ${DIR}/gemm-simple.mlir \
@@ -82,6 +86,10 @@ ${POLYAIE_OPT} -polyaie-codegen-cleanup \
   ${TMP_DEBUG_DIR}/gemm.polyaie.mlir \
   > ${TMP_DEBUG_DIR}/gemm.polyaie.mliraie.mlir
 
+${POLYAIE_OPT} -polyaie-reorder-operation \
+  ${TMP_DEBUG_DIR}/gemm.polyaie.mliraie.mlir \
+  > ${TMP_DEBUG_DIR}/gemm.polyaie.final.mlir
+
 # ===========================================
 ${POLYAIE_OPT} ${DIR}/gemm-8x8.mlir \
   -polyaie-pipeline="${PIPELINE_OPTS}" \
@@ -101,3 +109,7 @@ ${POLYAIE_TRANSLATE} ${TMP_8x8DIR}/gemm.polyaie.mlir \
 ${POLYAIE_OPT} -polyaie-codegen-cleanup \
   ${TMP_8x8DIR}/gemm.polyaie.mlir \
   > ${TMP_8x8DIR}/gemm.polyaie.mliraie.mlir
+
+${POLYAIE_OPT} -polyaie-reorder-operation \
+  ${TMP_8x8DIR}/gemm.polyaie.mliraie.mlir \
+  > ${TMP_8x8DIR}/gemm.polyaie.final.mlir

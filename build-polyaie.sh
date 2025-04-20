@@ -9,7 +9,7 @@ fi
 
 mkdir build && cd build
 
-cmake -G Ninja .. \
+/usr/bin/cmake -G Ninja .. \
     -DCMAKE_EXPORT_COMPILE_COMMANDS=1 \
     -DLLVM_DIR=$PWD/../llvm/build/lib/cmake/llvm \
     -DMLIR_DIR=$PWD/../llvm/build/lib/cmake/mlir \
